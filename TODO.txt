@@ -9,3 +9,5 @@ edit brush size?
 save and load grid states
 
 add modals explaining how the game of life works, how to use the ui, and small creations to explore
+
+create random maps? edit percent chance of alive spawning?

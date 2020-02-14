@@ -1,0 +1,52 @@
+function getEncodedStr() {
+	let rows = getRows();
+	let cols = getCols();
+
+	// store rows and cols in beginning of string, each 8 bin digits long (max size 255x255)
+	let binStr = padZeros(rows.toString(2),8) + padZeros(cols.toString(2),8);
+
+	for(let x=0; x<rows; x++) {
+		for(let y=0; y<cols; y++) {
+			binStr += grid[x][y];
+		}
+	}
+
+	// base 64 encoded string
+	return btoa(decodeURI(encodeURIComponent(parseBigInt(binStr,2) ) ) );
+}
+
+function decodeStr(str) {
+	let binStr = parseBigInt(atob(str) ).toString(2);
+
+	let rows = parseInt(binStr.substring(0,8), 2);
+	let cols = parseInt(binStr.substring(8,16), 2);
+
+	let idx = 16; // skip the first 16 digits (used for dimensions)
+	for(let x=0; x<rows; x++) {
+		for(let y=0; y<cols; y++) {
+			// in case current grid is too small
+			if(grid[x] != undefined && grid[x][y] != undefined) {
+				grid[x][y] = binStr[idx++];
+			}
+		}
+	}
+
+	updateGrid();
+}
+
+function padZeros(num, len) {
+	num = num.toString();
+	return '0'.repeat(len - num.length) + num;
+}
+
+// https://stackoverflow.com/a/55681265/4907950
+function parseBigInt(str, base=10) {
+	base = BigInt(base);
+	let bigint = BigInt(0);
+	for(let i = 0; i < str.length; i++) {
+		let code = str[str.length-1-i].charCodeAt(0) - 48;
+		if(code >= 10) code -= 39;
+		bigint += base**BigInt(i) * BigInt(code);
+	}
+	return bigint;
+}
