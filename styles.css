@@ -1,0 +1,17 @@
+body {
+	overflow: hidden;
+}
+#life-canvas {
+	top: 0;
+	left: 0;
+	position: absolute;
+	border: 1px solid #333;
+	cursor: pointer;
+}
+.btn-group {
+	position: absolute;
+}
+.btn {
+	width: 32px;
+	height: 32px;
+}
