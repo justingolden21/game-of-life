@@ -1,7 +1,11 @@
-/* variable used to hold future grid so creation of the future grid
-*  isn't messed up by future grid
-*  in other words, everything needs to happen at the same time,
-*  not one at a time where the previous influences the next */
+/*
+* Scripts that handle the basic game logic
+* The doTick() function loops through and applies the game rules to each cell
+* The nextGrid variable is used to hold the future grid generation
+* This is so the future grid isn't calcualted by referencing itself
+* In other words, everything happens at the same time
+*/
+
 let nextGrid = [];
 
 function doTick() {

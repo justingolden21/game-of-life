@@ -1,3 +1,8 @@
+/*
+* Set the current grid state to one where each cell is randomly generated as 1 or 0
+* Parameter is the odds that any given cell is 1
+*/
+
 function randomizeGrid(oddsLife=0.5) {
 	let rows = getRows();
 	let cols = getCols();

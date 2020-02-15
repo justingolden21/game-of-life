@@ -1,3 +1,9 @@
+/*
+* Scripts that control the user interface (other than clicking the canvas)
+* Buttons, scrolling, and keyboard are handled here
+* As well as the functions called such as controlling the generation speed or grid zoom
+*/
+
 let paused = true;
 let interval;
 

@@ -5,13 +5,19 @@ body {
 	top: 0;
 	left: 0;
 	position: absolute;
-	border: 1px solid #333;
+	border: 1px solid #666;
 	cursor: pointer;
 }
 .btn-group {
+	left: -2px;
+	top: -2px;
 	position: absolute;
 }
 .btn {
-	width: 32px;
-	height: 32px;
+	width: 33px;
+	height: 33px;
+	border-radius: 0;
+	border: 2px solid #fff;
+	background-color: #ccc;
+	color: #000;
 }

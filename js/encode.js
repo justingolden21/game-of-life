@@ -1,3 +1,11 @@
+/*
+* Encode or decode current grid state
+* For use importing or exporting grids
+* Converts binary 2d array to base 64 and vice versa
+* First 16 binary digits store dimension data
+* getEncodedStr() and decodeStr() should be called from outside, others are utility functions
+*/
+
 function getEncodedStr() {
 	let rows = getRows();
 	let cols = getCols();

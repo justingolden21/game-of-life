@@ -1,3 +1,9 @@
+/*
+* Basic scripts for controlling core functionality
+* Handles user editing cells, setting up the grid, and fillCell() which sets a cell
+* The fillCell() function both updates the grid variable and draws the cell on the canvas
+*/
+
 let canvas, ctx;
 
 let SIZE = 32;
@@ -48,6 +54,7 @@ function drawGrid() {
 			ctx.rect(x*SIZE, y*SIZE, SIZE, SIZE);
 		}
 	}
+	ctx.strokeStyle = '#666';
 	ctx.stroke();
 }
 
