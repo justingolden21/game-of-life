@@ -1,5 +1,8 @@
 let paused = true;
 let interval;
+
+let SPEED = 200;
+
 $( ()=> {
 	$('#play-btn').click( ()=> {
 		paused = !paused;
@@ -9,7 +12,7 @@ $( ()=> {
 		}
 		else {
 			$('#play-btn').html('<i class="fas fa-pause"></i>');
-			interval = setInterval(doTick, 200);
+			interval = setInterval(doTick, SPEED);
 		}
 	});
 	$('#step-btn').click(doTick);
@@ -47,6 +50,30 @@ function zoomIn() {
 	}
 }
 
+const MIN_SPEED = 50;
+const MAX_SPEED = 2000;
+const SPEED_INTERVAL = 50;
+
+function speedUp() {
+	if(SPEED > MIN_SPEED) {
+		SPEED -= SPEED_INTERVAL;
+		if(!paused) {
+			clearInterval(interval);
+			interval = setInterval(doTick, SPEED);
+		}
+	}
+}
+
+function slowDown() {
+	if(SPEED < MAX_SPEED) {
+		SPEED += SPEED_INTERVAL;
+		if(!paused) {
+			clearInterval(interval);
+			interval = setInterval(doTick, SPEED);
+		}
+	}
+}
+
 $(document).keydown( (evt)=> {
 	if(evt.which == 32 || evt.which == 13) { // space, enter
 		evt.preventDefault();
@@ -59,5 +86,12 @@ $(document).keydown( (evt)=> {
 	if(evt.which == 8 || evt.which == 46) { // backspace, delete
 		evt.preventDefault();
 		$('#clear-btn').click();
+	}
+
+	if(evt.which == 38) { // up
+		speedUp();
+	}
+	if(evt.which == 40) { // down
+		slowDown();
 	}
 });

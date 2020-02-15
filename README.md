@@ -25,3 +25,5 @@ There is a 2D array of "cells" which can either be "alive" or "dead" (on or off)
 - Hit the clear button (or backspace or delete) to clear the grid
 
 - Use the mouse scroll wheel to zoom in/out
+
+- Use the up and down arrow keys to speed up or slow down

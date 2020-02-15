@@ -2,12 +2,10 @@ make icon
 
 line tool? other tools?
 
-edit play speed?
-
 edit brush size?
 
 save and load grid states
 
-add modals explaining how the game of life works, how to use the ui, and small creations to explore
+add modals explaining how the game of life works, how to use the ui, and small creations to explore. add modal with buttons for controlling zoom and speed?
 
 create random maps? edit percent chance of alive spawning?
