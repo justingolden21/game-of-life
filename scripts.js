@@ -22,7 +22,7 @@ $( ()=> {
 	clear();
 
 	canvas.onclick = (evt)=> {
-		toggleCell(Math.round( (evt.offsetX-SIZE/2)/SIZE), Math.round( (evt.offsetY-SIZE/2)/SIZE) );
+		fillCell(Math.round( (evt.offsetX-SIZE/2)/SIZE), Math.round( (evt.offsetY-SIZE/2)/SIZE), 1);
 	}
 	canvas.oncontextmenu = (evt)=> {
 		evt.preventDefault();
@@ -63,7 +63,7 @@ function fillCell(x, y, val, useNextGrid=false) {
 	if(y==-1) y++;
 
 	if(useNextGrid) {
-		nextGrid[x][y] = val;		
+		nextGrid[x][y] = val;
 	}
 	else {
 		grid[x][y] = val;

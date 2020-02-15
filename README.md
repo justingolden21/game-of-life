@@ -14,9 +14,9 @@ There is a 2D array of "cells" which can either be "alive" or "dead" (on or off)
 
 ### How to Use
 
-- Click or right click to toggle a cell
+- Click or drag to fill a cell
 
-- Drag to draw multiple cells
+- Right click to toggle a cell
 
 - Hit the play button (or space or enter) to toggle play/pause
 
