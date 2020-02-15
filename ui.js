@@ -74,6 +74,26 @@ function slowDown() {
 	}
 }
 
+// https://gist.github.com/demonixis/5188326
+function toggleFullscreen(evt) {
+	let element = document.documentElement;
+
+	if(evt instanceof HTMLElement) {
+		element = evt;
+	}
+
+	let isFullscreen = document.webkitIsFullScreen || document.mozFullScreen || false;
+
+	element.requestFullScreen = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || function () { return false; };
+	document.cancelFullScreen = document.cancelFullScreen || document.webkitCancelFullScreen || document.mozCancelFullScreen || function () { return false; };
+
+	isFullscreen ? document.cancelFullScreen() : element.requestFullScreen();
+
+
+	drawGrid();
+	updateGrid();
+}
+
 $(document).keydown( (evt)=> {
 	if(evt.which == 32 || evt.which == 13) { // space, enter
 		evt.preventDefault();
@@ -93,5 +113,8 @@ $(document).keydown( (evt)=> {
 	}
 	if(evt.which == 40) { // down
 		slowDown();
+	}
+	if(evt.which == 70) { // F
+		toggleFullscreen();
 	}
 });
