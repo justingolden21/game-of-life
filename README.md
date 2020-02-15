@@ -1,4 +1,4 @@
-# Conway's Game of Life
+# Conway's Game of Life <img src="img/icon.svg" width="64px">
 
 http://justingolden.me/game-of-life/
 
