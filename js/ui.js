@@ -129,6 +129,7 @@ $(document).keydown( (evt)=> {
 		$('#step-btn').click();
 	}
 	if(evt.which == 8 || evt.which == 46) { // backspace, delete
+		if($('#import-export-modal').is(':visible') ) return;
 		evt.preventDefault();
 		$('#clear-btn').click();
 	}
