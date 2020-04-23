@@ -32,7 +32,8 @@
 	<button id="play-btn" title="play/pause" class="btn btn-sm"><i class="fas fa-play"></i></button>
 	<button id="step-btn" title="step" class="btn btn-sm"><i class="fas fa-arrow-right"></i></button>
 	<button id="clear-btn" title="clear all" class="btn btn-sm"><i class="fas fa-eraser"></i></button>
-	<button id="info-btn" title="about the game of life" class="btn btn-sm" data-toggle="modal" data-target="#info-modal"><i class="fas fa-info-circle"></i></button>
+	<button title="about the game of life" class="btn btn-sm" data-toggle="modal" data-target="#info-modal"><i class="fas fa-info-circle"></i></button>
+	<button title="import/export board state" class="btn btn-sm" data-toggle="modal" data-target="#import-export-modal"><i class="fas fa-file-export"></i></button>
 </div>
 
 <div id="info-modal" class="modal" role="dialog">
@@ -59,16 +60,37 @@
 					<li>Scroll to zoom in or out</li>
 					<li>"F" toggles fullscreen</li>
 					<li>Up and down arrow keys change the generation speed</li>
-					<li>The play button starts and stops the game (or space or enter)</li>
+					<li>The play button starts and stops the game (or space)</li>
 					<li>The arrow button moves one generation at a time</li>
 					<li>The eraser button clears the canvas (or backspace or delete)</li>
 					<li>The info button gets you back here</li>
+					<li>The import/export button lets you save and load a board state</li>
 				</ul>
 				<p>Website by <a href="https://justingolden.me/" target="_blank">Justin Golden</a></p>
 			</div>
 			<div class="modal-footer">
 				<p>Information from <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life" target="_blank">Wikipedia</a></p>
 			</div>
+		</div>
+	</div>
+</div>
+
+<div id="import-export-modal" class="modal" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Import / Export Board State</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<button id="export-btn" title="export board state to text below" class="btn btn-md"><i class="fas fa-download"></i> Export</button>
+				<button id="copy-btn" title="copy the text to your clipboard" class="btn btn-md"><i class="fas fa-copy"></i> Copy</button>
+				<textarea id="textarea" class="form-control"></textarea>
+				<button id="import-btn" title="import board state from text above" class="btn btn-md"><i class="fas fa-upload"></i> Import</button>
+			</div>
+			<!-- <div class="modal-footer"></div> -->
 		</div>
 	</div>
 </div>

@@ -18,7 +18,7 @@ There is a 2D array of "cells" which can either be "alive" or "dead" (on or off)
 
 - Right click to toggle a cell
 
-- Hit the play button (or space or enter) to toggle play/pause
+- Hit the play button (or space) to toggle play/pause
 
 - Hit the step button (or right arrow) to step through each state
 

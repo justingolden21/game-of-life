@@ -23,11 +23,28 @@ $( ()=> {
 	});
 	$('#step-btn').click(doTick);
 	$('#clear-btn').click(clear);
+
+	$('#export-btn').click( ()=> {
+		$('#textarea').val(getEncodedStr() );
+	});
+	$('#import-btn').click( ()=> {
+		decodeStr($('#textarea').val() );
+	});
+	$('#copy-btn').click( ()=> {
+		let textarea = $('#textarea');
+		textarea.focus();
+		textarea.select();
+		document.execCommand('copy');
+		if(window.innerWidth < 992) { // if mobile then focus copy btn
+			$('#copy-btn').focus();
+		}
+	});
 });
 
 
 $(document).bind('mousewheel', (evt)=> {
 	if($('#info-modal').is(':visible') ) return;
+	if($('#import-export-modal').is(':visible') ) return;
 
 	if(evt.originalEvent.wheelDelta / 120 > 0) {
 		// scroll up
@@ -103,7 +120,7 @@ function toggleFullscreen(evt) {
 }
 
 $(document).keydown( (evt)=> {
-	if(evt.which == 32 || evt.which == 13) { // space, enter
+	if(evt.which == 32) { // space
 		evt.preventDefault();
 		$('#play-btn').click();
 	}

@@ -11,20 +11,24 @@ function getEncodedStr() {
 	let cols = getCols();
 
 	// store rows and cols in beginning of string, each 8 bin digits long (max size 255x255)
-	let binStr = padZeros(rows.toString(2),8) + padZeros(cols.toString(2),8);
+	// add leading 1 so leading 0s aren't cut off
+	let binStr = '1' + padZeros(rows.toString(2),8) + padZeros(cols.toString(2),8);
 
 	for(let x=0; x<rows; x++) {
 		for(let y=0; y<cols; y++) {
-			binStr += grid[x][y];
+			if(grid[x][y] != undefined) {
+				binStr += grid[x][y];
+			}
 		}
 	}
 
 	// base 64 encoded string
-	return btoa(decodeURI(encodeURIComponent(parseBigInt(binStr,2) ) ) );
+	return btoa( ( (parseBigInt(binStr,2) ) ) );
 }
 
 function decodeStr(str) {
 	let binStr = parseBigInt(atob(str) ).toString(2);
+	binStr = binStr.substring(1); // remove leading 1
 
 	let rows = parseInt(binStr.substring(0,8), 2);
 	let cols = parseInt(binStr.substring(8,16), 2);

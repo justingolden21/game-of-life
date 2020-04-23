@@ -62,7 +62,7 @@ function toggleCell(x, y) {
 	if(x==-1) x++;
 	if(y==-1) y++;
 
-	fillCell(x, y, grid[x][y] == 1 ? 0 : 1);
+	fillCell(x, y, grid[x][y] == 0);
 }
 
 function fillCell(x, y, val, useNextGrid=false) {
