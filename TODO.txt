@@ -3,8 +3,7 @@ settings modal
 	edit brush size?
 	turn off scroll option
 	btns for controlling zoom and speed, as well as reset to default
-
-save and load grid states
+	option to store grid state in cookies?
 
 creations modal for list of creations to try
 
