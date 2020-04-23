@@ -1,9 +1,12 @@
-line tool? other tools?
-
-edit brush size?
+settings modal
+	line tool? other tools?
+	edit brush size?
+	turn off scroll option
+	btns for controlling zoom and speed
 
 save and load grid states
 
-add modals explaining how the game of life works, how to use the ui, and small creations to explore. add modal with buttons for controlling zoom and speed?
+creations modal for list of creations to try
 
-create random maps? edit percent chance of alive spawning?
+btn for randomize map
+	settings for percentage of live cells from random btn in settings modal
