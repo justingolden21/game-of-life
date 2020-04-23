@@ -11,6 +11,7 @@ body {
 .btn-group {
 	left: -2px;
 	top: -2px;
+	border: 2px solid rgba(255,255,255,0.5);
 	position: absolute;
 }
 .btn {
@@ -20,4 +21,11 @@ body {
 	border: 2px solid #fff;
 	background-color: #ccc;
 	color: #000;
+}
+.btn:hover {
+	background-color: #e6e6e6;
+}
+.modal-content {
+	border: 0;
+	border-radius: 0;
 }

@@ -27,6 +27,8 @@ $( ()=> {
 
 
 $(document).bind('mousewheel', (evt)=> {
+	if($('#info-modal').is(':visible') ) return;
+
 	if(evt.originalEvent.wheelDelta / 120 > 0) {
 		// scroll up
 		zoomIn();

@@ -32,6 +32,45 @@
 	<button id="play-btn" title="play/pause" class="btn btn-sm"><i class="fas fa-play"></i></button>
 	<button id="step-btn" title="step" class="btn btn-sm"><i class="fas fa-arrow-right"></i></button>
 	<button id="clear-btn" title="clear all" class="btn btn-sm"><i class="fas fa-eraser"></i></button>
+	<button id="info-btn" title="about the game of life" class="btn btn-sm" data-toggle="modal" data-target="#info-modal"><i class="fas fa-info-circle"></i></button>
+</div>
+
+<div id="info-modal" class="modal" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">About Conway's Game of Life</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<strong>Rules</strong>
+				<ol>
+					<li>Any live cell with fewer than two live neighbours dies, as if by underpopulation.</li>
+					<li>Any live cell with two or three live neighbours lives on to the next generation.</li>
+					<li>Any live cell with more than three live neighbours dies, as if by overpopulation.</li>
+					<li>Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.</li>
+				</ol>
+				<strong>Using the Website</strong>
+				<ul>
+					<li>Left click to turn on a tile</li>
+					<li>Right click to toggle a tile</li>
+					<li>Scroll to zoom in or out</li>
+					<li>"F" toggles fullscreen</li>
+					<li>Up and down arrow keys change the generation speed</li>
+					<li>The play button starts and stops the game (or space or enter)</li>
+					<li>The arrow button moves one generation at a time</li>
+					<li>The eraser button clears the canvas (or backspace or delete)</li>
+					<li>The info button gets you back here</li>
+				</ul>
+				<p>Website by <a href="https://justingolden.me/" target="_blank">Justin Golden</a></p>
+			</div>
+			<div class="modal-footer">
+				<p>Information from <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life" target="_blank">Wikipedia</a></p>
+			</div>
+		</div>
+	</div>
 </div>
 
 </body>
