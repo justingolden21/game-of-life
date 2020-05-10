@@ -7,9 +7,9 @@
 let paused = true;
 let interval;
 
-let SPEED = 200;
-
 $( ()=> {
+	$('[data-toggle="popover"]').popover({trigger:'hover', placement:'bottom'});
+
 	$('#play-btn').click( ()=> {
 		paused = !paused;
 		if(paused) {
@@ -18,7 +18,7 @@ $( ()=> {
 		}
 		else {
 			$('#play-btn').html('<i class="fas fa-pause"></i>');
-			interval = setInterval(doTick, SPEED);
+			interval = setInterval(doTick, speed);
 		}
 	});
 	$('#step-btn').click(doTick);
@@ -39,19 +39,50 @@ $( ()=> {
 			$('#copy-btn').focus();
 		}
 	});
+
+	$('#display-mode-select').change( ()=> {
+		displayMode = 'none';
+		updateGrid();
+
+		displayMode = $('#display-mode-select').val();
+		updateGrid();
+
+		updateDisplayDescription();
+	});
+
+	updateDisplayDescription();
+
+	$('#reset-settings-btn').click( ()=> {
+		resetSpeed();
+
+		$('#hover-checkbox').prop('checked', false);
+		$('#keyboard-checkbox').prop('checked', true);
+		$('#gridline-switch').prop('checked', true).change();
+		$('#display-mode-select').val('life').change();
+	});
+
+	$('#gridline-switch').change( ()=> {
+		if($('#gridline-switch').is(':checked') ) {
+			$('label[for=gridline-switch]').html('Dark gridlines');			
+		}
+		else {
+			$('label[for=gridline-switch]').html('Light gridlines');
+		}
+		drawGrid();
+		updateGrid();
+	});
+
+	$('#fullscreen-btn').click(toggleFullscreen);
 });
 
 
 $(document).bind('mousewheel', (evt)=> {
-	if($('#info-modal').is(':visible') ) return;
-	if($('#import-export-modal').is(':visible') ) return;
+	if($('.modal').is(':visible') ) return;
 
-	if(evt.originalEvent.wheelDelta / 120 > 0) {
-		// scroll up
+	if(evt.originalEvent.wheelDelta / 120 > 0) { // scroll up
 		zoomIn();
 	}
-	else {
-		// scroll down
+	else { // scroll down
 		zoomOut();
 	}
 });
@@ -75,51 +106,52 @@ function zoomIn() {
 	}
 }
 
-const MIN_SPEED = 50;
-const MAX_SPEED = 2000;
-const SPEED_INTERVAL = 50;
-
-function speedUp() {
-	if(SPEED > MIN_SPEED) {
-		SPEED -= SPEED_INTERVAL;
-		if(!paused) {
-			clearInterval(interval);
-			interval = setInterval(doTick, SPEED);
-		}
-	}
-}
-
-function slowDown() {
-	if(SPEED < MAX_SPEED) {
-		SPEED += SPEED_INTERVAL;
-		if(!paused) {
-			clearInterval(interval);
-			interval = setInterval(doTick, SPEED);
-		}
-	}
+function updateDisplayDescription() {
+	const DISPLAY_DESCRIPTIONS = {
+		none: 'No added colors, just black and white',
+		fade: 'Show the previous generation in a lighter color',
+		life: 'Cells adjacent to live tiles light up in color based upon how many live neighbors they have',
+	};
+	$('#display-description').html(DISPLAY_DESCRIPTIONS[displayMode]);
 }
 
 // https://gist.github.com/demonixis/5188326
 function toggleFullscreen(evt) {
 	let element = document.documentElement;
-
 	if(evt instanceof HTMLElement) {
 		element = evt;
 	}
-
 	let isFullscreen = document.webkitIsFullScreen || document.mozFullScreen || false;
-
-	element.requestFullScreen = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || function () { return false; };
-	document.cancelFullScreen = document.cancelFullScreen || document.webkitCancelFullScreen || document.mozCancelFullScreen || function () { return false; };
-
+	element.requestFullScreen = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || ( ()=> false);
+	document.cancelFullScreen = document.cancelFullScreen || document.webkitCancelFullScreen || document.mozCancelFullScreen || ( ()=> false);
 	isFullscreen ? document.cancelFullScreen() : element.requestFullScreen();
 
+	// subsequent calls to getRows and getCols should be accurate to new window dimensions
 
+	// note: makes grid[0].length larger after LEAVING fullscreen
+	console.log(grid.length, grid[0].length);
+	 // todo: below not working
+	scaleCanvasToWindow();
 	drawGrid();
 	updateGrid();
+	console.log(grid.length, grid[0].length);
+
+	if(isFullscreen) { // was fullscreen
+		$('#fullscreen-btn').html('<i class="fas fa-expand"></i> Enter Fullscreen');		
+	}
+	else {
+		$('#fullscreen-btn').html('<i class="fas fa-compress"></i> Exit Fullscreen');		
+	}
+}
+
+function verify(num, min, max, defaultVal) {
+	num = Math.max(Math.min(parseInt(num),max),min);
+	return isNaN(num) ? defaultVal : num;
 }
 
 $(document).keydown( (evt)=> {
+	if(! $('#keyboard-checkbox').is(':checked') ) return;
+
 	if(evt.which == 32) { // space
 		evt.preventDefault();
 		$('#play-btn').click();
@@ -129,16 +161,20 @@ $(document).keydown( (evt)=> {
 		$('#step-btn').click();
 	}
 	if(evt.which == 8 || evt.which == 46) { // backspace, delete
-		if($('#import-export-modal').is(':visible') ) return;
+		if($('.modal').is(':visible') ) return;
 		evt.preventDefault();
 		$('#clear-btn').click();
 	}
 
 	if(evt.which == 38) { // up
-		speedUp();
+		if(document.activeElement.id!='speed-input') {
+			speedUp();
+		}
 	}
 	if(evt.which == 40) { // down
-		slowDown();
+		if(document.activeElement.id!='speed-input') {
+			slowDown();
+		}
 	}
 	if(evt.which == 70) { // F
 		toggleFullscreen();

@@ -13,12 +13,14 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="css/styles.css">
 <script src="js/scripts.js"></script>
 <script src="js/life.js"></script>
+<script src="js/speed.js"></script>
 <script src="js/ui.js"></script>
 <script src="js/encode.js"></script>
 <script src="js/randomFill.js"></script>
@@ -29,18 +31,24 @@
 
 <canvas id="life-canvas"></canvas>
 <div class="btn-group" role="group">
-	<button id="play-btn" title="Play / Pause" class="btn btn-sm"><i class="fas fa-play"></i></button>
-	<button id="step-btn" title="Step" class="btn btn-sm"><i class="fas fa-arrow-right"></i></button>
-	<button id="clear-btn" title="Clear All" class="btn btn-sm"><i class="fas fa-eraser"></i></button>
-	<button title="About Conway's Game of Life and This Website" class="btn btn-sm" data-toggle="modal" data-target="#info-modal"><i class="fas fa-info-circle"></i></button>
-	<button title="Import / Export Board" class="btn btn-sm" data-toggle="modal" data-target="#import-export-modal"><i class="fas fa-file-export"></i></button>
+	<button id="play-btn" title="Play / Pause" data-toggle="popover" class="btn btn-sm"><i class="fas fa-play"></i></button>
+	<button id="step-btn" title="Step" data-toggle="popover" class="btn btn-sm"><i class="fas fa-arrow-right"></i></button>
+	<button id="clear-btn" title="Clear All" data-toggle="popover" class="btn btn-sm"><i class="fas fa-eraser"></i></button>
+	
+	<span data-toggle="modal" data-target="#info-modal"><button title="About Conway's Game of Life and This Website" data-toggle="popover" class="btn btn-sm"><i class="fas fa-info-circle"></i></button></span>
+	<span data-toggle="modal" data-target="#import-export-modal"><button title="Import / Export Board" data-toggle="popover" class="btn btn-sm"><i class="fas fa-file-export"></i></button></span>
+	<span data-toggle="modal" data-target="#settings-modal"><button title="Settings" data-toggle="popover" class="btn btn-sm"><i class="fas fa-cog"></i></button></span>
+
 </div>
+
+<i id="backward-icon" class="fas fa-backward"></i>
+<i id="forward-icon" class="fas fa-forward"></i>
 
 <div id="info-modal" class="modal" role="dialog">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">About Conway's Game of Life</h5>
+				<h5 class="modal-title"><i class="fas fa-info-circle"></i> About Conway's Game of Life</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -79,18 +87,78 @@
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Import / Export Board State</h5>
+				<h5 class="modal-title"><i class="fas fa-file-export"></i> Import / Export Board State</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
 			<div class="modal-body">
-				<button id="export-btn" title="Export Board State to Text Below" class="btn btn-md"><i class="fas fa-download"></i> Export</button>
-				<button id="copy-btn" title="Copy the Text to your Clipboard" class="btn btn-md"><i class="fas fa-copy"></i> Copy</button>
+				<button id="export-btn" title="Export Board State to Text Below" data-toggle="popover" class="btn btn-md"><i class="fas fa-download"></i> Export</button>
+				<button id="copy-btn" title="Copy the Text to your Clipboard" data-toggle="popover" class="btn btn-md"><i class="fas fa-copy"></i> Copy</button>
 				<textarea id="textarea" class="form-control"></textarea>
-				<button id="import-btn" title="Import Board State from Text Above" class="btn btn-md"><i class="fas fa-upload"></i> Import</button>
+				<button id="import-btn" title="Import Board State from Text Above" data-toggle="popover" class="btn btn-md"><i class="fas fa-upload"></i> Import</button>
 			</div>
-			<!-- <div class="modal-footer"></div> -->
+			<div class="modal-footer">
+				Wikipedia has some great <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Examples_of_patterns" target="_blank" rel="noreferrer">examples of patterns</a> to try out.
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="settings-modal" class="modal" role="dialog">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title"><i class="fas fa-cog"></i> Settings</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				
+				<svg width="48px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64">
+					<style type="text/css">
+						*{stroke:#000;stroke-width:3;}
+					</style>
+					<path fill="none" d="M32,20C18.7,20,8,30.7,8,44h48C56,30.7,45.3,20,32,20z"/>
+					<line id="speed-line" x1="32" y1="40" x2="32" y2="24"/>
+					<path fill="#000" d="M32,36c-2.2,0-4,1.8-4,4h8C36,37.8,34.2,36,32,36z"/>
+				</svg>
+
+				<label for="speed-input">Speed <span id="speed-text"></span>ms</label>
+				<input id="speed-input" type="range" class="custom-range">
+
+				<label for="display-mode-select">Display Mode</label>
+				<select id="display-mode-select" class="form-control">
+					<option value="none">Default</option>
+					<option value="fade">Fade</option>
+					<option selected value="life">Life</option>
+				</select>
+				<p id="display-description"></p>
+
+				<div class="custom-control custom-switch">
+					<input checked type="checkbox" class="custom-control-input" id="gridline-switch">
+					<label class="custom-control-label" for="gridline-switch">Dark gridlines</label>
+				</div>
+
+				<div class="custom-control custom-checkbox text-left mt-2">
+					<input id="hover-checkbox" type="checkbox" class="custom-control-input">
+					<label class="custom-control-label" for="hover-checkbox"><i class="fas fa-hand-pointer"></i> Fill cells on hover</label>
+				</div>
+
+				<div class="custom-control custom-checkbox text-left mt-2">
+					<input checked id="keyboard-checkbox" type="checkbox" class="custom-control-input">
+					<label class="custom-control-label" for="keyboard-checkbox"><i class="fas fa-keyboard"></i> Use keyboard shortcuts</label>
+				</div>
+
+				<hr>
+
+				<button id="fullscreen-btn" title="Toggle fullscreen" data-toggle="popover" class="btn btn-md"><i class="fas fa-expand"></i> Enter Fullscreen</button>
+				
+			</div>
+			<div class="modal-footer">
+				<button id="reset-settings-btn" title="Reset to default settings" data-toggle="popover" class="btn btn-md"><i class="fas fa-sync-alt"></i> Reset</button>
+			</div>
 		</div>
 	</div>
 </div>
