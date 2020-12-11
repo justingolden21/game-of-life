@@ -46,6 +46,22 @@ $( ()=> {
 		if(!mouseIsDown && !doHover) return;
 		fillCell(Math.round( (evt.offsetX-SIZE/2)/SIZE), Math.round( (evt.offsetY-SIZE/2)/SIZE), 1);
 	}
+
+	$(canvas).bind('touchmove', (e)=> {
+		// https://stackoverflow.com/a/61732450
+		if(e.type == 'touchstart' || e.type == 'touchmove' || e.type == 'touchend' || e.type == 'touchcancel'){
+			let evt = (typeof e.originalEvent === 'undefined') ? e : e.originalEvent;
+			let touch = evt.touches[0] || evt.changedTouches[0];
+			x = touch.pageX;
+			y = touch.pageY;
+		} else if (e.type == 'mousedown' || e.type == 'mouseup' || e.type == 'mousemove' || e.type == 'mouseover'|| e.type=='mouseout' || e.type=='mouseenter' || e.type=='mouseleave') {
+			x = e.clientX;
+			y = e.clientY;
+		}
+
+		fillCell(Math.round( (x-SIZE/2)/SIZE), Math.round( (y-SIZE/2)/SIZE), 1);
+	});
+
 });
 
 function clear() {
