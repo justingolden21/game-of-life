@@ -6,6 +6,8 @@ http://justingolden.me/game-of-life/
 
 Read about it on [Wikipedia](https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life)
 
+Or watch a [neat documentary](https://youtu.be/Kk2MH9O4pXY) released on the history of it
+
 There is a 2D array of "cells" which can either be "alive" or "dead" (on or off)
 
 > 1. Any live cell with two or three neighbors survives.
