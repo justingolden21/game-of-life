@@ -11,32 +11,39 @@ let SIZE = 32;
 let grid = [];
 
 let mouseIsDown = false;
-$(document).mousedown( ()=> {
-	mouseIsDown = true;
-}).mouseup( ()=> {
-	mouseIsDown = false;
-});
+$(document).mousedown( ()=>
+	mouseIsDown = true
+).mouseup( ()=>
+	mouseIsDown = false
+);
+
+function scaleCanvasToWindow() {
+	canvas.setAttribute('width', window.innerWidth);
+	canvas.setAttribute('height', window.innerHeight);	
+}
 
 $( ()=> {
 	canvas = document.getElementById('life-canvas');
 	ctx = canvas.getContext('2d');
 
-	canvas.setAttribute('width', window.innerWidth);
-	canvas.setAttribute('height', window.innerHeight);
+	scaleCanvasToWindow();
 
 	drawGrid();
 	clear();
 
 	canvas.onclick = (evt)=> {
 		fillCell(Math.round( (evt.offsetX-SIZE/2)/SIZE), Math.round( (evt.offsetY-SIZE/2)/SIZE), 1);
+		if(displayMode=='life') updateGrid();
 	}
 	canvas.oncontextmenu = (evt)=> {
 		evt.preventDefault();
 		toggleCell(Math.round( (evt.offsetX-SIZE/2)/SIZE), Math.round( (evt.offsetY-SIZE/2)/SIZE) );
+		if(displayMode=='life') updateGrid();
 	}
 	canvas.onmousemove = (evt)=> {
 		// dragging mouse
-		if(!mouseIsDown) return;
+		let doHover = $('#hover-checkbox').is(':checked');
+		if(!mouseIsDown && !doHover) return;
 		fillCell(Math.round( (evt.offsetX-SIZE/2)/SIZE), Math.round( (evt.offsetY-SIZE/2)/SIZE), 1);
 	}
 
@@ -57,6 +64,17 @@ $( ()=> {
 
 });
 
+function clear() {
+	let rows = getRows();
+	let cols = getCols();
+
+	for(let x=0; x<rows; x++) {
+		for(let y=0; y<cols; y++) {
+			fillCell(x, y, 0);
+		}
+	}
+}
+
 function drawGrid() {
 	let rows = getRows();
 	let cols = getCols();
@@ -70,15 +88,13 @@ function drawGrid() {
 			ctx.rect(x*SIZE, y*SIZE, SIZE, SIZE);
 		}
 	}
-	ctx.strokeStyle = '#666';
+	let color = $('#gridline-switch').is(':checked') ? '#666' : '#fff';
+	ctx.strokeStyle = color;
 	ctx.stroke();
 }
 
 function toggleCell(x, y) {
-	if(x==-1) x++;
-	if(y==-1) y++;
-
-	fillCell(x, y, grid[x][y] == 0);
+	fillCell(x, y, grid[x][y] == 0 ? 1 : 0);
 }
 
 function fillCell(x, y, val, useNextGrid=false) {
@@ -97,16 +113,50 @@ function fillCell(x, y, val, useNextGrid=false) {
 }
 
 // used to restore/redraw grid after zoom
+// also used if using a displayMode other than none
+let displayMode = 'life'; // 'none', 'life', or 'fade'
 function updateGrid() {
 	let rows = getRows();
 	let cols = getCols();
 
+	// prev
+	if(displayMode=='fade' && prevGrid) {
+		for(let x=0; x<rows; x++) {
+			for(let y=0; y<cols; y++) {
+				if(!prevGrid[x]) continue; // bug fix for zooming out
+				ctx.fillStyle = prevGrid[x][y] == 1 ? '#666' : 'white';
+				ctx.fillRect(x*SIZE + 1, y*SIZE + 1, SIZE - 2, SIZE - 2);
+			}
+		}
+	}
+	
+	// current
 	for(let x=0; x<rows; x++) {
 		for(let y=0; y<cols; y++) {
-			ctx.fillStyle = grid[x][y] == 1 ? 'black' : 'white';
+			if(displayMode=='none') {
+				ctx.fillStyle = grid[x][y] == 1 ? 'black' : 'white';
+			}
+			else if(displayMode=='fade') {
+				ctx.fillStyle = grid[x][y] == 1 ? 'black' : 'transparent';				
+			}
+			else { // 'life'
+				if(grid[x][y]==1) {
+					ctx.fillStyle = 'black';
+				}
+				else {
+					let adj = getAdjacentCount(x, y);
+					let lightness = Math.round(100 - (adj*100/9) );
+					// let hue = 0;
+					// let hue = Math.round(360*adj/9);
+					let hue = Math.round(360 - 360*adj/9);
+					ctx.fillStyle = 'hsl('+hue+', 100%, '+lightness+'%)';
+				}	
+			}
+
 			ctx.fillRect(x*SIZE + 1, y*SIZE + 1, SIZE - 2, SIZE - 2);
 		}
 	}
+
 }
 
 function getRows() {

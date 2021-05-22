@@ -6,7 +6,8 @@
 * In other words, everything happens at the same time
 */
 
-let nextGrid = [];
+let prevGrid;
+let nextGrid;
 
 function doTick() {
 	let rows = getRows();
@@ -22,20 +23,15 @@ function doTick() {
 		}
 	}
 
+	prevGrid = grid.map( (arr)=> { // deep clone 2d array
+		return arr.slice();
+	});
+
 	grid = nextGrid.map( (arr)=> { // deep clone 2d array
 		return arr.slice();
 	});
-}
 
-function clear() {
-	let rows = getRows();
-	let cols = getCols();
-
-	for(let x=0; x<rows; x++) {
-		for(let y=0; y<cols; y++) {
-			fillCell(x, y, 0);
-		}
-	}
+	if(displayMode!='none') updateGrid();
 }
 
 function doRules(x, y) {

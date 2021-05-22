@@ -5,7 +5,17 @@ settings modal
 	btns for controlling zoom and speed, as well as reset to default
 	option to store grid state in cookies?
 
+	email, donate, share, git repo
+
+	update icon with pretty colors
+
+	fix grid (draw more lines) on fullscreen
+
 creations modal for list of creations to try
+	scrollable with preview of what they look like and import code
+	click btn to import them
 
 btn for randomize map
 	settings for percentage of live cells from random btn in settings modal
+
+option to feed in an input? such as one of the 256 cellular automata rules
