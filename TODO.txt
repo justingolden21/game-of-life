@@ -15,7 +15,4 @@ creations modal for list of creations to try
 	scrollable with preview of what they look like and import code
 	click btn to import them
 
-btn for randomize map
-	settings for percentage of live cells from random btn in settings modal
-
 option to feed in an input? such as one of the 256 cellular automata rules

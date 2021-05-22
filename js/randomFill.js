@@ -3,6 +3,8 @@
 * Parameter is the odds that any given cell is 1
 */
 
+// Logic
+
 function randomizeGrid(oddsLife=0.5) {
 	let rows = getRows();
 	let cols = getCols();
@@ -15,3 +17,17 @@ function randomizeGrid(oddsLife=0.5) {
 
 	updateGrid();
 }
+
+// UI
+
+$( ()=> {
+	$('#randomize-btn').click( ()=> {
+		let percent = parseFloat($('#randomize-input').val() );
+		randomizeGrid(percent);
+		console.log(percent);
+	});
+	$('#randomize-input').change( ()=> {
+		$('#randomize-text').html($('#randomize-input').val() );
+	});
+	$('#randomize-text').html($('#randomize-input').val() );
+});
