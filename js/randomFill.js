@@ -22,9 +22,7 @@ function randomizeGrid(oddsLife=0.5) {
 
 $( ()=> {
 	$('#randomize-btn').click( ()=> {
-		let percent = parseFloat($('#randomize-input').val() );
-		randomizeGrid(percent);
-		console.log(percent);
+		randomizeGrid( parseFloat($('#randomize-input').val() ) );
 	});
 	$('#randomize-input').change( ()=> {
 		$('#randomize-text').html($('#randomize-input').val() );
