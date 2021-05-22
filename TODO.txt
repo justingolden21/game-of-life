@@ -7,14 +7,9 @@ settings modal
 
 	email, donate, share, git repo
 
-	grid color (light dark toggle)
-	set none, fade, or life draw option (and their colors)
-
-	popover
-
 	update icon with pretty colors
 
-	fiux grid (draw more lines) on fullscreen
+	fix grid (draw more lines) on fullscreen
 
 creations modal for list of creations to try
 	scrollable with preview of what they look like and import code

@@ -62,12 +62,9 @@ $( ()=> {
 	});
 
 	$('#gridline-switch').change( ()=> {
-		if($('#gridline-switch').is(':checked') ) {
-			$('label[for=gridline-switch]').html('Dark gridlines');			
-		}
-		else {
-			$('label[for=gridline-switch]').html('Light gridlines');
-		}
+		let color = $('#gridline-switch').is(':checked') ? 'Dark' : 'Light';
+		$('label[for=gridline-switch]').html(color + ' gridlines');			
+
 		drawGrid();
 		updateGrid();
 	});
@@ -106,12 +103,12 @@ function zoomIn() {
 	}
 }
 
+const DISPLAY_DESCRIPTIONS = {
+	none: 'No added colors, just black and white',
+	fade: 'Show the previous generation in a lighter color',
+	life: 'Cells adjacent to live tiles light up in color based upon how many live neighbors they have',
+};
 function updateDisplayDescription() {
-	const DISPLAY_DESCRIPTIONS = {
-		none: 'No added colors, just black and white',
-		fade: 'Show the previous generation in a lighter color',
-		life: 'Cells adjacent to live tiles light up in color based upon how many live neighbors they have',
-	};
 	$('#display-description').html(DISPLAY_DESCRIPTIONS[displayMode]);
 }
 
@@ -126,16 +123,6 @@ function toggleFullscreen(evt) {
 	document.cancelFullScreen = document.cancelFullScreen || document.webkitCancelFullScreen || document.mozCancelFullScreen || ( ()=> false);
 	isFullscreen ? document.cancelFullScreen() : element.requestFullScreen();
 
-	// subsequent calls to getRows and getCols should be accurate to new window dimensions
-
-	// note: makes grid[0].length larger after LEAVING fullscreen
-	console.log(grid.length, grid[0].length);
-	 // todo: below not working
-	scaleCanvasToWindow();
-	drawGrid();
-	updateGrid();
-	console.log(grid.length, grid[0].length);
-
 	if(isFullscreen) { // was fullscreen
 		$('#fullscreen-btn').html('<i class="fas fa-expand"></i> Enter Fullscreen');		
 	}
@@ -144,10 +131,26 @@ function toggleFullscreen(evt) {
 	}
 }
 
-function verify(num, min, max, defaultVal) {
-	num = Math.max(Math.min(parseInt(num),max),min);
-	return isNaN(num) ? defaultVal : num;
+// https://stackoverflow.com/a/25876513/4907950
+if (document.addEventListener) {
+	document.addEventListener('fullscreenchange', fullscreenHandler, false);
+	document.addEventListener('mozfullscreenchange', fullscreenHandler, false);
+	document.addEventListener('MSFullscreenChange', fullscreenHandler, false);
+	document.addEventListener('webkitfullscreenchange', fullscreenHandler, false);
 }
+function fullscreenHandler() {
+	// we don't care if document is or is not in fullscreen
+	// we only care that the document has finished changing so we can measure the new innerWidth and innerHeight
+
+	scaleCanvasToWindow();
+	drawGrid();
+	updateGrid();
+}
+
+// function verify(num, min, max, defaultVal) {
+// 	num = Math.max(Math.min(parseInt(num),max),min);
+// 	return isNaN(num) ? defaultVal : num;
+// }
 
 $(document).keydown( (evt)=> {
 	if(! $('#keyboard-checkbox').is(':checked') ) return;

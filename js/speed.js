@@ -12,9 +12,7 @@ $( ()=> {
 	$('#speed-input').attr('max', MAX_SPEED);
 	$('#speed-input').attr('step', SPEED_INTERVAL);
 
-	// $('#speed-input').val(speed);
-	// $('#speed-text').html(speed);
-updateSpeed();
+	updateSpeed();
 
 	$('#speed-input').change( ()=> {
 		speed = parseInt($('#speed-input').val() );
